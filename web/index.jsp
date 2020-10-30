@@ -1,6 +1,6 @@
 <%-- 
-    Document   : listadoComercios
-    Created on : 29/10/2020, 21:57:27
+    Document   : index
+    Created on : 29/10/2020, 22:13:21
     Author     : mnava
 --%>
 
