@@ -18,7 +18,7 @@ import java.util.ArrayList;
  */
 public class GestorDB {
 	private Connection con;
-	private final String CON_STR = "jdbc:sqlserver://LAPTOP-0CRE86U4\\SQLEXPRESS:1433;databaseName=Gestoria";
+	private final String CON_STR = "jdbc:sqlserver://LAPTOP-0CRE86U4\\SQLEXPRESS:1433;databaseName=ArticulosComercios";
 	private final String USER = "sa";
 	private final String PASS = "123456";
 
@@ -43,7 +43,7 @@ public class GestorDB {
 		}
 	}
 
-	public ArrayList<ArticuloConComercioDTO> obtenerArticulosConComercios() {
+	public ArrayList<ArticuloConComercioDTO> getArticulosConComercios() {
 		ArrayList<ArticuloConComercioDTO> lista = new ArrayList<>();
 		try {
 			abrirConexion();

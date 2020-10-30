@@ -10,13 +10,41 @@ package model;
  * @author mnava
  */
 public class ArticuloConComercioDTO {
-	public String descripcion;
-	public String razonSocial;
-	public float precio;
+	private String descripcion;
+	private String razonSocial;
+	private float precio;
+
+	public ArticuloConComercioDTO() {
+
+	}
 
 	public ArticuloConComercioDTO(String descripcion, String razonSocial, float precio) {
 		this.descripcion = descripcion;
 		this.razonSocial = razonSocial;
+		this.precio = precio;
+	}
+
+	public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	public String getRazonSocial() {
+		return razonSocial;
+	}
+
+	public void setRazonSocial(String razonSocial) {
+		this.razonSocial = razonSocial;
+	}
+
+	public float getPrecio() {
+		return precio;
+	}
+
+	public void setPrecio(float precio) {
 		this.precio = precio;
 	}
 }

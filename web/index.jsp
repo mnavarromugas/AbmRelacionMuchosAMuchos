@@ -5,6 +5,9 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<jsp:useBean id="gestor" scope="request" class="model.GestorDB" />
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,6 +15,16 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Listado de Articulos por Comercio</h1>
+		<table>
+			<c:forEach items="${gestor.articulosConComercios}" var="articuloConComercio" >
+				<tr>
+					<td>${articuloConComercio.descripcion}</td>
+					<td>${articuloConComercio.razonSocial}</td>
+					<td>${articuloConComercio.precio}</td>
+				</tr>
+			</c:forEach>
+
+		</table>
     </body>
 </html>
