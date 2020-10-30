@@ -24,7 +24,8 @@
 					<td>${articuloConComercio.precio}</td>
 				</tr>
 			</c:forEach>
-
 		</table>
+
+		<a href="/ArticulosComerciosWeb/AltaArticulosComerciosServlet">Alta de articulos por comercio...</a>
     </body>
 </html>

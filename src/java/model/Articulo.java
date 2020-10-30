@@ -12,16 +12,14 @@ package model;
 public class Articulo {
 	private int id;
 	private String descripcion;
-	private float precio;
 
 	public Articulo() {
 
 	}
 
-	public Articulo(int id, String descripcion, float precio) {
+	public Articulo(int id, String descripcion) {
 		this.id = id;
 		this.descripcion = descripcion;
-		this.precio = precio;
 	}
 
 	public int getId() {
@@ -38,14 +36,6 @@ public class Articulo {
 
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
-	}
-
-	public float getPrecio() {
-		return precio;
-	}
-
-	public void setPrecio(float precio) {
-		this.precio = precio;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ package model;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -43,6 +44,7 @@ public class GestorDB {
 		}
 	}
 
+	//se llama get para que lo reconozca al usarlo como javaBean
 	public ArrayList<ArticuloConComercioDTO> getArticulosConComercios() {
 		ArrayList<ArticuloConComercioDTO> lista = new ArrayList<>();
 		try {
@@ -65,5 +67,67 @@ public class GestorDB {
 		}
 		return lista;
 	}
+
+	public ArrayList<Articulo> obtenerArticulos() {
+		ArrayList<Articulo> lista = new ArrayList<>();
+		try {
+			abrirConexion();
+			String sql = "select * from Articulos";
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String descripcion = rs.getString("descripcion");
+
+				lista.add(new Articulo(id, descripcion));
+			}
+			rs.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			cerrarConexion();
+		}
+		return lista;
+	}
 	
+	public ArrayList<Comercio> obtenerComercios() {
+		ArrayList<Comercio> lista = new ArrayList<>();
+		try {
+			abrirConexion();
+			String sql = "select * from Comercios";
+			Statement st = con.createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			while (rs.next()) {
+				int id = rs.getInt("id");
+				String razonSocial = rs.getString("razonSocial");
+
+				lista.add(new Comercio(id, razonSocial));
+			}
+			rs.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			cerrarConexion();
+		}
+		return lista;
+	}
+
+	public boolean insertarArticuloXComercio(int idArticulo, int idComercio, float precio) {
+		boolean inserto = false;
+		try {
+			abrirConexion();
+			String sql = "INSERT INTO ArticulosXComercios (idArticulo, idComercio, precio) VALUES (?,?,?)";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, idArticulo);
+			st.setInt(2, idComercio);
+			st.setFloat(3, precio);
+			st.execute();
+			inserto = true;
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			cerrarConexion();
+		}
+		return inserto;
+	}
 }
