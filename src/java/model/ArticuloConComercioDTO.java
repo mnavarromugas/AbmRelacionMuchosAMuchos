@@ -10,6 +10,8 @@ package model;
  * @author mnava
  */
 public class ArticuloConComercioDTO {
+	private int idArticulo;
+	private int idComercio;
 	private String descripcion;
 	private String razonSocial;
 	private float precio;
@@ -18,7 +20,9 @@ public class ArticuloConComercioDTO {
 
 	}
 
-	public ArticuloConComercioDTO(String descripcion, String razonSocial, float precio) {
+	public ArticuloConComercioDTO(int idArticulo, int idComercio, String descripcion, String razonSocial, float precio) {
+		this.idArticulo = idArticulo;
+		this.idComercio = idComercio;
 		this.descripcion = descripcion;
 		this.razonSocial = razonSocial;
 		this.precio = precio;
@@ -46,5 +50,21 @@ public class ArticuloConComercioDTO {
 
 	public void setPrecio(float precio) {
 		this.precio = precio;
+	}
+
+	public int getIdArticulo() {
+		return idArticulo;
+	}
+
+	public void setIdArticulo(int idArticulo) {
+		this.idArticulo = idArticulo;
+	}
+
+	public int getIdComercio() {
+		return idComercio;
+	}
+
+	public void setIdComercio(int idComercio) {
+		this.idComercio = idComercio;
 	}
 }

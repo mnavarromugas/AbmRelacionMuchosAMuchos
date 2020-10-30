@@ -6,23 +6,19 @@
 package servlets;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.Articulo;
-import model.Comercio;
 import model.GestorDB;
 
 /**
  *
  * @author mnava
  */
-@WebServlet(name = "AltaArticulosComerciosServlet", urlPatterns = {"/AltaArticulosComerciosServlet"})
-public class AltaArticulosComerciosServlet extends HttpServlet {
+@WebServlet(name = "EliminarServlet", urlPatterns = {"/EliminarServlet"})
+public class EliminarServlet extends HttpServlet {
 
 	/**
 	 * Handles the HTTP <code>GET</code> method.
@@ -36,16 +32,13 @@ public class AltaArticulosComerciosServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
 
+		int idArticulo = Integer.parseInt(request.getParameter("idArticulo"));
+		int idComercio = Integer.parseInt(request.getParameter("idComercio"));
+		
 		GestorDB g = new GestorDB();
+		g.eliminar(idArticulo, idComercio);
 
-		ArrayList<Articulo> articulos = g.obtenerArticulos();
-		ArrayList<Comercio> comercios = g.obtenerComercios();
-
-		request.setAttribute("listaArticulos", articulos);
-		request.setAttribute("listaComercios", comercios);
-
-		RequestDispatcher rd = getServletContext().getRequestDispatcher("/alta.jsp");
-		rd.forward(request, response);
+		response.sendRedirect("/ArticulosComerciosWeb/index.jsp");
 	}
 
 	/**
@@ -59,16 +52,6 @@ public class AltaArticulosComerciosServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 		throws ServletException, IOException {
-
-		GestorDB g = new GestorDB();
-
-		int idArticulo = Integer.parseInt(request.getParameter("cboArticulo"));
-		int idComercio = Integer.parseInt(request.getParameter("cboComercio"));
-		float precio = Float.parseFloat(request.getParameter("txtPrecio"));
-
-		g.insertarOModificarArticuloXComercio(idArticulo, idComercio, precio);
-
-		response.sendRedirect("/ArticulosComerciosWeb/index.jsp");
 	}
 
 	/**

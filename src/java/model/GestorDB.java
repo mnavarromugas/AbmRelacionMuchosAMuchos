@@ -49,15 +49,17 @@ public class GestorDB {
 		ArrayList<ArticuloConComercioDTO> lista = new ArrayList<>();
 		try {
 			abrirConexion();
-			String sql = "select a.descripcion, c.razonSocial, ac.precio from Articulos a JOIN ArticulosXComercios ac ON ac.idArticulo = a.id JOIN Comercios c ON ac.idComercio = c.id";
+			String sql = "select a.id as articuloId, c.id as comercioId, a.descripcion, c.razonSocial, ac.precio from Articulos a JOIN ArticulosXComercios ac ON ac.idArticulo = a.id JOIN Comercios c ON ac.idComercio = c.id";
 			Statement st = con.createStatement();
 			ResultSet rs = st.executeQuery(sql);
 			while (rs.next()) {
+				int idArticulo = rs.getInt("articuloId");
+				int idComercio= rs.getInt("comercioId");
 				String descripcion = rs.getString("descripcion");
 				String razonSocial = rs.getString("razonSocial");
 				float precio = rs.getFloat("precio");
 
-				lista.add(new ArticuloConComercioDTO(descripcion, razonSocial, precio));
+				lista.add(new ArticuloConComercioDTO(idArticulo, idComercio, descripcion, razonSocial, precio));
 			}
 			rs.close();
 		} catch (SQLException ex) {
@@ -112,6 +114,40 @@ public class GestorDB {
 		return lista;
 	}
 
+	public void insertarOModificarArticuloXComercio(int idArticulo, int idComercio, float precio) {
+		//Si existe un registro con la clave primaria compuesta por idArticulo y idComercio
+		if(existeRegistro(idArticulo, idComercio)) {
+		//entonces es un modificar
+			modificarArticuloXComercio(idArticulo, idComercio, precio);
+		} else {
+		//sino es un alta
+			insertarArticuloXComercio(idArticulo, idComercio, precio);
+		}
+	}
+
+	private boolean existeRegistro(int idArticulo, int idComercio) {
+		boolean existe = false;
+		try {
+			abrirConexion();
+			String sql = "select * from ArticulosXComercios WHERE idArticulo=? AND idComercio=?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, idArticulo);
+			st.setInt(2, idComercio);
+			ResultSet rs = st.executeQuery();
+
+			if (rs.next()) {
+				existe = true;
+			}
+			rs.close();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			cerrarConexion();
+		}
+
+		return existe;
+	}
+
 	public boolean insertarArticuloXComercio(int idArticulo, int idComercio, float precio) {
 		boolean inserto = false;
 		try {
@@ -130,4 +166,36 @@ public class GestorDB {
 		}
 		return inserto;
 	}
+
+	public void eliminar(int idArticulo, int idComercio) {
+		try {
+			abrirConexion();
+			String sql = "DELETE FROM ArticulosXComercios WHERE idArticulo=? AND idComercio=?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setInt(1, idArticulo);
+			st.setInt(2, idComercio);
+			st.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			cerrarConexion();
+		}
+	}
+
+	private void modificarArticuloXComercio(int idArticulo, int idComercio, float precio) {
+		try {
+			abrirConexion();
+			String sql = "UPDATE ArticulosXComercios SET precio=? WHERE idArticulo=? AND idComercio=?";
+			PreparedStatement st = con.prepareStatement(sql);
+			st.setFloat(1, precio);
+			st.setInt(2, idArticulo);
+			st.setInt(3, idComercio);
+			st.executeUpdate();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			cerrarConexion();
+		}
+	}
+
 }

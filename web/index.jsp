@@ -22,6 +22,7 @@
 					<td>${articuloConComercio.descripcion}</td>
 					<td>${articuloConComercio.razonSocial}</td>
 					<td>${articuloConComercio.precio}</td>
+					<td><a href="/ArticulosComerciosWeb/EliminarServlet?idArticulo=${articuloConComercio.idArticulo}&idComercio=${articuloConComercio.idComercio}">Eliminar</a></td>
 				</tr>
 			</c:forEach>
 		</table>
